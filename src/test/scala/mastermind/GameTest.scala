@@ -1,8 +1,9 @@
 package mastermind
 
 import org.scalatest._
+import org.scalatest.funspec._
 
-class GameTest extends FunSpecLike with Matchers {
+class GameTest extends AnyFunSpec {
 
   describe("Gameplay") {
     val red = Color("Red", (1, 1, 1))

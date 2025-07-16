@@ -1,7 +1,5 @@
 package mastermind
 
-import scala.scalajs.js.JSApp
-
 import org.scalajs.dom.document
 import org.scalajs.dom.window
 
@@ -9,10 +7,10 @@ import scalatags.JsDom.all._
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.raw.Event
 
-object App extends JSApp {
+object App {
   val setup = new Setup
 
-  def main(): Unit = newGame
+  def main(args: Array[String]): Unit = newGame
 
   def newGame = {
     println("Starting New Game")
