@@ -38,21 +38,19 @@ case class Game(val target: List[Color], val maxTurns: Int, val steps: List[Turn
     else Right(Game(target, maxTurns, Turn(choices, choices.getHint(target)) :: steps))
 }
 
-/**
- * A default config for a game
- */
 class Setup {
-  /** palette of non-hint colors **/
+  /** palette of non-hint colors with modern, vibrant colors **/
   val palette: List[Color] =
     List(
-      Color("Red", (193, 11, 14)),
-      Color("Pink", (190, 11, 193)),
-      Color("Blue", (20, 11, 193)),
-      Color("Green", (11, 193, 32)),
-      Color("Yellow", (239, 228, 11)),
-      Color("Orange", (252, 143, 0)))
-  val alignedHintColor = Color("Black", (50, 50, 50))
-  val notAlignedHintColor = Color("White", (200, 200, 200))
+      Color("Crimson", (220, 38, 127)),
+      Color("Electric Blue", (59, 130, 246)),
+      Color("Emerald", (34, 197, 94)),
+      Color("Amber", (245, 158, 11)),
+      Color("Purple", (147, 51, 234)),
+      Color("Orange", (249, 115, 22))
+    )
+  val alignedHintColor = Color("Correct", (15, 23, 42))      // Dark slate for correct position
+  val notAlignedHintColor = Color("Present", (148, 163, 184)) // Light slate for wrong position
 
   def newGame: Game = {
     val rand = new Random(new Date().getTime)
