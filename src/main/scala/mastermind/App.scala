@@ -201,6 +201,7 @@ case class Gui(val game: Game) {
     div(
       cls := rowClasses,
       hintCell(turn), 
+      testMoveBtn,
       div(
         cls := "flex items-center justify-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700",
         activeHoles.map(x => x._2)
