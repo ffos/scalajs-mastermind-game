@@ -59,6 +59,44 @@
       (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
   }
+
+  // Orientation popup functionality
+  let orientationPopupDismissed = false;
+
+  function checkOrientation() {
+    const popup = document.getElementById('orientation-popup');
+    const isSmallScreen = window.innerWidth <= 768;
+    const isPortrait = window.innerHeight > window.innerWidth;
+    
+    if (isSmallScreen && isPortrait && !orientationPopupDismissed) {
+      popup.classList.add('show');
+    } else {
+      popup.classList.remove('show');
+    }
+  }
+
+  function dismissOrientationPopup() {
+    orientationPopupDismissed = true;
+    document.getElementById('orientation-popup').classList.remove('show');
+    // Store preference for this session
+    sessionStorage.setItem('orientationPopupDismissed', 'true');
+  }
+
+  // Check orientation on page load and orientation change
+  window.addEventListener('load', () => {
+    // Restore dismissed state from session storage
+    if (sessionStorage.getItem('orientationPopupDismissed') === 'true') {
+      orientationPopupDismissed = true;
+    }
+    checkOrientation();
+  });
+  
+  window.addEventListener('orientationchange', () => {
+    // Small delay to allow orientation change to complete
+    setTimeout(checkOrientation, 100);
+  });
+  
+  window.addEventListener('resize', checkOrientation);
 </script>
 <style>
   .hole {
@@ -153,6 +191,52 @@
     }
   }
 
+  /* Landscape orientation popup styles */
+  .orientation-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .orientation-popup-content {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 320px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .rotate-icon {
+    animation: rotate-hint 2s ease-in-out infinite;
+    display: inline-block;
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  
+  @keyframes rotate-hint {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); }
+    75% { transform: rotate(15deg); }
+  }
+  
+  /* Show popup only on small screens in portrait mode */
+  @media screen and (max-width: 768px) and (orientation: portrait) {
+    .orientation-popup.show {
+      display: flex;
+    }
+  }
+
 </style>
 </head>
 <body class="h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
@@ -169,6 +253,21 @@
       <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
     </svg>
   </button>
+
+  <!-- Landscape orientation recommendation popup -->
+  <div id="orientation-popup" class="orientation-popup">
+    <div class="orientation-popup-content">
+      <div class="rotate-icon">📱</div>
+      <h3 class="text-lg font-bold mb-2">Better Experience</h3>
+      <p class="text-sm mb-4">For the best gaming experience, please rotate your device to landscape mode.</p>
+      <button 
+        onclick="dismissOrientationPopup()" 
+        class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all duration-200 text-sm font-medium border border-white border-opacity-30"
+      >
+        Continue in Portrait
+      </button>
+    </div>
+  </div>
 
   <div class="min-h-screen flex items-center justify-center p-2 sm:p-4">
     <div id="game-container" class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl">
