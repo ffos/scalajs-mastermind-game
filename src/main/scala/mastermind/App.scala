@@ -39,18 +39,21 @@ object App {
 
 case class Gui(val game: Game) {
   val startNewGameBtn = button(
-    cls := "bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105",
-    "🎮 New Game"
+    cls := "bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white font-semibold py-1.5 px-2 sm:py-2 sm:px-4 text-xs sm:text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105",
+    span(cls := "hidden sm:inline", "🎮 New Game"),
+    span(cls := "sm:hidden", "🎮")
   ).render
   
   val testMoveBtn = button(
-    cls := "bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 hover:from-green-600 hover:to-green-700 dark:hover:from-green-700 dark:hover:to-green-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
-    "✓ Submit Guess"
+    cls := "bg-gradient-to-r from-green-500 to-green-600 dark:from-green-600 dark:to-green-700 hover:from-green-600 hover:to-green-700 dark:hover:from-green-700 dark:hover:to-green-800 text-white font-semibold py-1.5 px-2 sm:py-2 sm:px-4 text-xs sm:text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
+    span(cls := "hidden sm:inline", "✓ Submit Guess"),
+    span(cls := "sm:hidden", "✓")
   ).render
   
   val showTargetBtn = button(
-    cls := "bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 hover:from-purple-600 hover:to-purple-700 dark:hover:from-purple-700 dark:hover:to-purple-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105",
-    "👁️ Show Target"
+    cls := "bg-gradient-to-r from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 hover:from-purple-600 hover:to-purple-700 dark:hover:from-purple-700 dark:hover:to-purple-800 text-white font-semibold py-1.5 px-2 sm:py-2 sm:px-4 text-xs sm:text-sm rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105",
+    span(cls := "hidden sm:inline", "👁️ Show Target"),
+    span(cls := "sm:hidden", "👁️")
   ).render
 
   var playerGuesses: List[Option[Color]] = game.target.map(x => None) // !! mutable
@@ -89,19 +92,19 @@ case class Gui(val game: Game) {
   }
 
   def guessCell(turn: Option[Turn]) = div(
-    cls := "flex items-center justify-center gap-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700",
+    cls := "flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700",
     guesses(turn.map(_.guess))
   )
   
   def hintCell(turn: Option[Turn]) = div(
-    cls := "flex items-center justify-center gap-1 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 mr-4",
+    cls := "flex items-center justify-center gap-1 p-2 sm:p-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 mr-2 sm:mr-4",
     hints(turn.map(_.hint))
   )
   
-  val emptyCell = div(cls := "flex items-center justify-center gap-1 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 mr-4")
+  val emptyCell = div(cls := "flex items-center justify-center gap-1 p-2 sm:p-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 mr-2 sm:mr-4")
   
   val targetCell = div(
-    cls := "flex items-center justify-center gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-300 dark:border-yellow-700",
+    cls := "flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-300 dark:border-yellow-700",
     game.target.map(coloredHole)
   )
   
@@ -112,19 +115,19 @@ case class Gui(val game: Game) {
   ).render
   
   def emptyHole = div(
-    cls := "w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 shadow-inner"
+    cls := "w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 shadow-inner"
   )
   
   def coloredHole(color: Color) = div(
-    cls := "w-8 h-8 rounded-full border-2 border-gray-400 dark:border-gray-500 shadow-lg",
+    cls := "w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-gray-400 dark:border-gray-500 shadow-lg",
     style := s"background-color: ${color.rgbToCssString}"
   )
   
   def hole(color: Option[Color], isActive: Boolean = false) = {
     val baseClasses = if (isActive) {
-      "w-8 h-8 rounded-full border-2 cursor-pointer hole transition-all duration-200 hover:border-blue-400 dark:hover:border-blue-500"
+      "w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 cursor-pointer hole transition-all duration-200 hover:border-blue-400 dark:hover:border-blue-500"
     } else {
-      "w-8 h-8 rounded-full border-2 shadow-lg"
+      "w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 shadow-lg"
     }
     
     if (color.isEmpty) {
@@ -149,28 +152,29 @@ case class Gui(val game: Game) {
     cls := "flex flex-col",
     gameBoxTitle, 
     targetRow, 
-    div(cls := "px-6 pb-6", rows)
+    div(cls := "px-3 sm:px-6 pb-3 sm:pb-6", rows)
   )
   
   def gameName = h1(
-    cls := "text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent",
-    "🧩 MasterMind ",
+    cls := "text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent text-center",
+    span(cls := "hidden sm:inline", "🧩 MasterMind "),
+    span(cls := "sm:hidden", "🧩 MasterMind"),
     a(
       href := "http://bit.ly/1VnFT8U", 
       target := "_blank",
-      cls := "text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 underline font-normal",
+      cls := "text-xs sm:text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 underline font-normal ml-1",
       "[wiki]"
     )
   )
   
   def gameBoxTitle = div(
-    cls := "flex flex-col items-center justify-center p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600",
+    cls := "flex flex-col items-center justify-center p-3 sm:p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 border-b border-gray-200 dark:border-gray-600",
     gameName, 
     gameBoxTitleButtons
   )
   
   def gameBoxTitleButtons = div(
-    cls := "flex gap-3 mt-4",
+    cls := "flex gap-2 sm:gap-3 mt-3 sm:mt-4",
     startNewGameBtn, 
     testMoveBtn, 
     showTargetBtn
@@ -186,16 +190,16 @@ case class Gui(val game: Game) {
         else emptyRow(p._2)
       ).reverse
     
-    div(cls := "space-y-3", gameRows)
+    div(cls := "space-y-2 sm:space-y-3", gameRows)
   }
 
   def activeRow(turn: Option[Turn]) = {
     val rowClasses = if (game.hasWon) {
-      "flex items-center justify-between p-4 bg-green-100 dark:bg-green-900/30 border-2 border-green-400 dark:border-green-600 rounded-xl shadow-lg"
+      "flex items-center justify-between p-2 sm:p-4 bg-green-100 dark:bg-green-900/30 border-2 border-green-400 dark:border-green-600 rounded-xl shadow-lg"
     } else if (game.hasTurnsExhausted) {
-      "flex items-center justify-between p-4 bg-red-100 dark:bg-red-900/30 border-2 border-red-400 dark:border-red-600 rounded-xl shadow-lg opacity-60"
+      "flex items-center justify-between p-2 sm:p-4 bg-red-100 dark:bg-red-900/30 border-2 border-red-400 dark:border-red-600 rounded-xl shadow-lg opacity-60"
     } else {
-      "flex items-center justify-between p-4 bg-blue-100 dark:bg-blue-900/30 border-2 border-blue-400 dark:border-blue-600 rounded-xl shadow-lg animate-pulse-border"
+      "flex items-center justify-between p-2 sm:p-4 bg-blue-100 dark:bg-blue-900/30 border-2 border-blue-400 dark:border-blue-600 rounded-xl shadow-lg animate-pulse-border"
     }
     
     div(
@@ -203,20 +207,20 @@ case class Gui(val game: Game) {
       hintCell(turn), 
       testMoveBtn,
       div(
-        cls := "flex items-center justify-center gap-2 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700",
+        cls := "flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700",
         activeHoles.map(x => x._2)
       )
     )
   }
 
   def completedRow(turn: Option[Turn]) = div(
-    cls := "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm",
+    cls := "flex items-center justify-between p-2 sm:p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm",
     hintCell(turn), 
     guessCell(turn)
   )
 
   def emptyRow(turn: Option[Turn]) = div(
-    cls := "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm opacity-50",
+    cls := "flex items-center justify-between p-2 sm:p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm opacity-50",
     hintCell(turn), 
     guessCell(turn)
   )

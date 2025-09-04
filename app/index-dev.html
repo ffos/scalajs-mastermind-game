@@ -65,9 +65,30 @@
     transition: all 0.2s ease-in-out;
   }
   
+  /* Responsive touch targets - smaller on mobile, larger on larger screens */
+  @media (max-width: 640px) {
+    .hole {
+      min-height: 24px; /* Matches w-6 h-6 */
+      min-width: 24px;
+    }
+  }
+  
+  @media (min-width: 641px) {
+    .hole {
+      min-height: 32px; /* Matches w-8 h-8 */
+      min-width: 32px;
+    }
+  }
+  
   .hole:hover {
     transform: scale(1.2);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  @media (max-width: 640px) {
+    .hole:hover {
+      transform: scale(1.1); /* Smaller scale on mobile */
+    }
   }
   
   .tooltip {
@@ -100,6 +121,14 @@
     z-index: 1000;
   }
 
+  /* Hide tooltips on mobile to prevent interference */
+  @media (max-width: 640px) {
+    .tooltip:hover::after,
+    .tooltip:hover::before {
+      display: none;
+    }
+  }
+
   /* Custom scrollbar for better aesthetics */
   ::-webkit-scrollbar {
     width: 8px;
@@ -116,13 +145,21 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-500 dark:bg-gray-500;
   }
+
+  /* Prevent zoom on input focus on mobile Safari */
+  @media screen and (max-width: 768px) {
+    input, select, textarea, button {
+      font-size: 16px !important;
+    }
+  }
+
 </style>
 </head>
 <body class="h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
   <!-- Dark mode toggle button -->
   <button 
     onclick="toggleDarkMode()" 
-    class="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
+    class="fixed top-2 right-2 sm:top-4 sm:right-4 z-50 p-2 sm:p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all duration-200 border border-gray-200 dark:border-gray-700"
     aria-label="Toggle dark mode"
   >
     <svg class="w-5 h-5 text-gray-800 dark:text-yellow-400 dark:hidden" fill="currentColor" viewBox="0 0 20 20">
@@ -133,8 +170,8 @@
     </svg>
   </button>
 
-  <div class="h-full flex items-center justify-center p-4">
-    <div id="game-container" class="w-full max-w-2xl">
+  <div class="min-h-screen flex items-center justify-center p-2 sm:p-4">
+    <div id="game-container" class="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl">
       <!-- Game content will be inserted here by ScalaJS -->
     </div>
   </div>
